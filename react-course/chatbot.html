@@ -2,6 +2,92 @@
 <html>
   <head>
     <title>Chatbot</title>
+    <style>
+      body{
+        font-family: Arial; /*sents the font for the whole body or website*/
+        margin-top: 0px;
+        margin-bottom: 0px; /*remove default margin of the body (8px) we did this so that it doesnt add
+                            extra pixel so the height: 100vh that is used in the .app-container, 
+                            this makes the height exaclty of browser*/
+      }
+
+      /* we use .elementclass this allows us to only style this class*/
+      .send-button { /* this the CSS selector "button" tells the computer which element we want to chang*/
+        background-color: rgb(25, 135, 84); /* CSS styles, tells how to change the apperance
+                                      left side is CSS property, what we are chaning
+                                      right side CSS value, what we are changing the property to
+                                      this will change all buttons to green*/
+        color: white;
+        padding: 12px 20px; /*px is pixel, y x, padding is the space insize size of element, make button bigger*/
+        margin-left: 10px; /*margin is space outside of element*/
+        border: none; /*removes borders from button*/
+        border-radius: 10px; /*makes button round*/
+        font-size: 15px; /*change size of text*/
+        cursor: pointer; /*when mouse hoovers the button it will change arrow to hand icon*/
+      }
+      .chat-input {
+        padding: 12px 15px; /*padding for chatbox field*/
+        border-radius: 10px;
+        border-width: 1px; /*change width of the border*/
+        font-size: 15px; /*change font size of the text inside the placeholder */
+
+        flex-grow: 1; /*flew-grow makes an element grow and take up the ramaining space*/
+
+      }
+      /*to use flex we must 1)create container around elements
+      2) add display: flex; to container
+      3) use flexbox features*/
+      .chat-input-container { /*we are turning the chat input box field to a flex, this alows 
+                              for things to resize byt itself when window size changes*/
+        display: flex;
+        margin-bottom: 60px; /*this add space bottom of the chat input box so that is not fully
+                              touching the bottom of the page*/
+      }
+
+      .app-container {
+        max-width: 600px; /*this limits the size of the display instead of whole app taking up space*/
+        margin-left: auto;
+        margin-right: auto; /*the auto for left/right will automatically add space so that it is center*/
+        
+        height: 100vh; /*vh is viewport height (hight of the browser that is visible), this allows 
+                      the App container to strech 100% of the height*/
+        display: flex;
+        flex-direction: column; /*this postions the element by colum (vertically) rather than row(horizontally)*/
+      }
+
+      .chat-message-user {
+        display: flex;
+        justify-content: end;/*controls how the elements are display horizontally "end" displays on right*/
+        align-items: start; /*this will display elements at start and will no longer stretch*/
+      }
+      .chat-message-robot{
+        display: flex;
+        align-items: start;
+      }
+
+      .chat-message-text{
+        background-color: rgb(238, 238, 238); /*changes background of the messages*/
+        padding: 15px 20px;
+        border-radius: 10px;
+        margin-right: 10px;
+        margin-left: 10px;
+        margin-bottom: 20px;
+        max-width: 300px; /*this gives max width for text messages box*/
+      }
+
+      .chat-message-profile {
+        width: 45px;
+      }
+
+      .chat-messages-container { /*this makes the chat input box pushed to the bottom of the screen*/
+        flex-grow: 1;
+        margin-top: 20px; /*this add space bottom of the chat input box so that is not fully
+                              touching the top of the page*/
+        overflow: scroll; /*this allows to scroll, rather than pushing the chat input down*/
+        scrollbar-width: none; /*hides the scrollbar*/
+      }
+
+    </style>
   </head>
   <body>
     <div class="js-container"></div>
@@ -61,22 +147,27 @@
         }
 
         return (
-          <> 
+          //we created className chat-input-container so that we can use flex (flex can only we used in div not in fragmented divs)
+          <div className="chat-input-container"> 
             <input 
               placeholder="Send a message to Chatbot" 
               size="30"
               onChange={saveInputText} // is an event funcion 
               value={inputText} //we can control the input box, by setting to empty after user sends msg
-            />
+              className="chat-input"
+              />
             <button
               onClick={sendMessage}
+              className="send-button" //in react we use className to set the class, this will allow us 
+                                      //to specificly change the color for this button
             >Send</button>
-          </>
+          </div>
         );
       }
 
       function ChatMessage({message, sender}){
-       // const message = props.message;
+      
+        // const message = props.message;
        // const sender = props.sender;
 
        // const {message, sender} = props;
@@ -94,13 +185,22 @@
         // }
 
         return(
-          <div>
+          //we are using the ternary operator "? :" which is an if else operator
+          //value ? value2 : value3 the "?" is if and ":" else 
+          <div className={sender === 'user'
+                            ? 'chat-message-user' 
+                            : 'chat-message-robot'
+                          }>
             {sender ==='robot' && (
-              <img src="robot.png" width="50" />
+              <img src="robot.png"
+                className="chat-message-profile"/> //this attribute will allows us to CSS the profile
             )}
-            {message}
+            <div className="chat-message-text">
+              {message}
+            </div>
             {sender === 'user' && (
-              <img src="user.png" width="50" />
+              <img src="user.png"
+              className="chat-message-profile"/>
             )}
           </div>
         );
@@ -108,8 +208,27 @@
       
 
       function ChatMessages({chatMessages}) {
+        //create const chatMessagesRef so that we can use in useEffect
+        const chatMessagesRef = React.useRef(null); //creates a ref with contonainters with react features
+
+        //below is a hook, let us insert react features into components (same as useState())
+        //this allow us to run some code after the component is created or updated
+        React.useEffect(() => {
+          const containerElem = chatMessagesRef.current
+          if (containerElem) {
+            containerElem.scrollTop = containerElem.scrollHeight //the right side is how far from the top should we scroll
+                                                                 //scrollHeight gives us the height of the elemnt which should
+                                                                 //scroll all the way down. this will allow us to scroll down
+                                                                 //automatically if we send a new message in the box
+          }
+        }, [chatMessages]); //best practive is to give a Dependency Array, to control when useEffect runs
+                            //to avoid running it too often
+        
+        
         return(
-          <>
+          <div className="chat-messages-container"
+            ref={chatMessagesRef} //create ref so that we can references so that we can use it in useEffect
+          >
             {chatMessages.map((chatMessage) => {
               return (
                 <ChatMessage 
@@ -119,7 +238,7 @@
                 />
               );
             })}
-          </>
+          </div>
         )
       }
 
@@ -146,19 +265,20 @@
         const chatMessages = array[0]; //gets the current value that we get from array of React.useState
         const setChatMessages = array[1]; // we use "set" as naming convetion to update the data AKA updater function
                                           //React.useState 2nd value it return is a function that updates the data
-*/
-
+        */
 
         return(
-        <>
+        <div className="app-container">
+          
+          <ChatMessages 
+            chatMessages={chatMessages}
+          />
           <ChatInput //this allows ChatInput to use (set)chatMessages this would all need to be passed to the function
             chatMessages={chatMessages}
             setChatMessages = {setChatMessages}
           />
-          <ChatMessages 
-            chatMessages={chatMessages}
-          />
-        </>
+
+        </div>
         );
       }
 
