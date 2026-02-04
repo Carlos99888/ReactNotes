@@ -1,0 +1,13 @@
+ /*
+ As good practice we have 2 css files, an App.css and index.css
+ The App.css is for the App component goes into the App.css
+ All the css for the overall website should go into the index.css
+ */
+
+body{
+  font-family: Arial; /*sents the font for the whole body or website*/
+  margin-top: 0px;
+  margin-bottom: 0px; /*remove default margin of the body (8px) we did this so that it doesnt add
+                      extra pixel so the height: 100vh that is used in the .app-container, 
+                      this makes the height exaclty of browser*/
+}
