@@ -3,39 +3,6 @@
  The App.css is for the App component goes into the App.css
  All the css for the overall website should go into the index.css
  */
- 
-/* we use .elementclass this allows us to only style this class*/
-.send-button { /* this the CSS selector "button" tells the computer which element we want to chang*/
-  background-color: rgb(25, 135, 84); /* CSS styles, tells how to change the apperance
-                                left side is CSS property, what we are chaning
-                                right side CSS value, what we are changing the property to
-                                this will change all buttons to green*/
-  color: white;
-  padding: 12px 20px; /*px is pixel, y x, padding is the space insize size of element, make button bigger*/
-  margin-left: 10px; /*margin is space outside of element*/
-  border: none; /*removes borders from button*/
-  border-radius: 10px; /*makes button round*/
-  font-size: 15px; /*change size of text*/
-  cursor: pointer; /*when mouse hoovers the button it will change arrow to hand icon*/
-}
-.chat-input {
-  padding: 12px 15px; /*padding for chatbox field*/
-  border-radius: 10px;
-  border-width: 1px; /*change width of the border*/
-  font-size: 15px; /*change font size of the text inside the placeholder */
-
-  flex-grow: 1; /*flew-grow makes an element grow and take up the ramaining space*/
-
-}
-/*to use flex we must 1)create container around elements
-2) add display: flex; to container
-3) use flexbox features*/
-.chat-input-container { /*we are turning the chat input box field to a flex, this alows 
-                        for things to resize byt itself when window size changes*/
-  display: flex;
-  margin-bottom: 60px; /*this add space bottom of the chat input box so that is not fully
-                        touching the bottom of the page*/
-}
 
 .app-container {
   max-width: 600px; /*this limits the size of the display instead of whole app taking up space*/
@@ -48,34 +15,3 @@
   flex-direction: column; /*this postions the element by colum (vertically) rather than row(horizontally)*/
 }
 
-.chat-message-user {
-  display: flex;
-  justify-content: end;/*controls how the elements are display horizontally "end" displays on right*/
-  align-items: start; /*this will display elements at start and will no longer stretch*/
-}
-.chat-message-robot{
-  display: flex;
-  align-items: start;
-}
-
-.chat-message-text{
-  background-color: rgb(238, 238, 238); /*changes background of the messages*/
-  padding: 15px 20px;
-  border-radius: 10px;
-  margin-right: 10px;
-  margin-left: 10px;
-  margin-bottom: 20px;
-  max-width: 300px; /*this gives max width for text messages box*/
-}
-
-.chat-message-profile {
-  width: 45px;
-}
-
-.chat-messages-container { /*this makes the chat input box pushed to the bottom of the screen*/
-  flex-grow: 1;
-  margin-top: 20px; /*this add space bottom of the chat input box so that is not fully
-                        touching the top of the page*/
-  overflow: scroll; /*this allows to scroll, rather than pushing the chat input down*/
-  scrollbar-width: none; /*hides the scrollbar*/
-}

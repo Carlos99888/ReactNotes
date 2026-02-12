@@ -1,5 +1,6 @@
 import RobotProfileImage from '../assets/robot.png' //this is a default export no {} not needed "import Name from filepath"
 import UserProfileImage from '../assets/user.png'   //we use ".." so that it goes out of folder and than look for assets>png
+import './ChatMessage.css'
 
 export function ChatMessage({message, sender}){
 

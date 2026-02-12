@@ -1,0 +1,7 @@
+.chat-messages-container { /*this makes the chat input box pushed to the bottom of the screen*/
+  flex-grow: 1;
+  margin-top: 20px; /*this add space bottom of the chat input box so that is not fully
+                        touching the top of the page*/
+  overflow: scroll; /*this allows to scroll, rather than pushing the chat input down*/
+  scrollbar-width: none; /*hides the scrollbar*/
+}

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { ChatInput } from './components/ChatInput' //no need to add .jsx, vite will add it automatically
 import './App.css' //./ means current folder
 import ChatMessages from './components/ChatMessages'; //this is a defaul export since we didnt use {}
-      
+
 
 function App() {  
 

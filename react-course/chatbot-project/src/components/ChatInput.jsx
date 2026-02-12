@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Chatbot } from 'supersimpledev';
+import './ChatInput.css'
 
 //the export keyword allows so that we can use it in another file
 export function ChatInput({chatMessages, setChatMessages}) {
